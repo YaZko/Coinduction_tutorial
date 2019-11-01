@@ -28,3 +28,14 @@
 
 *** gpaco
 
+** Examples
+
+*** Finite automaton -> infinite properties
+
+*** Infinite state machine -> infinite object
+
+*** Streams
+
+*** ITrees
+
+*** Pi-calculus?
