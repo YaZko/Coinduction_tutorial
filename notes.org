@@ -1,0 +1,30 @@
+* Things we want to cover
+
+** Theoretical side
+
+*** Notion of greatest fixed point
+
+*** Coinductive reasoning principle: based on Tarski's principle
+    TODO : double check if that's the same thing as "Park's principle" or if there's a difference
+
+*** Reasoning up-to
+    Definition, sound closure, respectful class, yadi yada
+
+*** Parameterized coinduction
+
+*** Generalized parameterized coinduction
+
+** Coq side
+
+*** Reduction rules, frob
+
+*** Positive, negative
+
+*** Subject reduction is broken 
+
+*** Guardedness
+
+*** paco
+
+*** gpaco
+
