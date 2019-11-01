@@ -39,3 +39,27 @@
 *** ITrees
 
 *** Pi-calculus?
+
+** Resources 
+
+*** Corecursion and coinduction: what they are and how they relate to recursion and induction 
+    https://pdfs.semanticscholar.org/41fb/876f6b35971173ef1808472350b51cf3afd1.pdf
+
+*** A Tutorial on Co-induction and Functional Programming 
+    http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.8.7706&rep=rep1&type=pdf
+
+*** An introduction to (co)algebra and (co)induction
+    https://homepages.cwi.nl/~janr/papers/files-of-papers/2011_Jacobs_Rutten_new.pdf
+
+*** Co-induction in relational semantics
+    https://www.sciencedirect.com/science/article/pii/030439759190033X
+
+*** On Streams and Coinduction
+    https://homepages.cwi.nl/~janr/papers/files-of-papers/CRM.pdf
+
+*** An Introduction to Coinduction (hritcu)
+    https://prosecco.gforge.inria.fr/personal/hritcu/dyn/coind/CoindStart.html 
+
+*** Coinductive (Adam)
+    http://adam.chlipala.net/cpdt/html/Coinductive.html#approx 
+
