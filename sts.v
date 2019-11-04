@@ -25,16 +25,27 @@ Inductive edge: Node -> Node -> Prop :=
 .
 Hint Constructors edge.
 
-(* We want to define the set of nodes from which it is possible to step indefinitely.
+(* We want to define the set of nodes from which it is possible to step indefinitely. (a, b, d)
    We have essentially three possibilities.
  *)
 
 (* The positive coinductive style.
    Historical way of doing things in Coq
-   Known to break subject reduction TODO: illustrate this.
+   Known to break subject reduction.
  *)
 CoInductive inf : Node -> Prop :=
 | step: forall x y, inf y -> edge x y -> inf x.
+
+Section SubjectReduction.
+  CoInductive I := C : I -> I.
+  CoFixpoint infty := C infty.
+  Definition unfold : infty = C infty :=
+    match infty as x return match x with C n => x = C n end with
+    | C n => eq_refl (C n)
+    end.
+  Eval lazy in unfold.
+  Fail Definition nf_unfold : infty = C infty := Eval lazy in unfold.
+End SubjectReduction.
 
 (* The negative coinductive style.
    Define first the functor, then define the coinductive
@@ -105,4 +116,3 @@ Proof.
   pmonauto.
 Qed.
 Hint Resolve F_mon : paco.
-
