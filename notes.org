@@ -18,11 +18,39 @@
 
 *** Reduction rules, frob
 
+    Fix, cofix, match: governed by iota rules. For cofix, dual to the one of
+    fix: a fix reduces when its arguments are known; a cofix reduces when it is
+    patterned matched on.
+    Intuitively: a cofix can always provide more constructors to the environment,
+    to avoid diverging, we only reduce as long as the context knows what to do 
+    with these constructors.
+    Hence the [frob] trick.
+
 *** Positive, negative
 
 *** Subject reduction is broken 
 
+    CoInductive tick := Tick : tick -> tick.
+    CoFixpoint loop := Tick loop.
+    Definition etaeq : loop = loop :=
+    match loop with
+    | Tick t ⇒ eq_refl (Tick t) |
+    end.
+    Definition BOOM := Eval compute in (etaeq : loop = loop).
+    https://www.xn--pdrot-bsa.fr/slides/rapido-06-15.pdf
+
 *** Guardedness
+
+    Oppositely to recursive ones, there is no decreasing argument in a co-recursive
+    definition. To be admissible, a method of construction must provide at least one
+    extra constructor of the infinite object for each iteration. A syntactical guard
+    condition is imposed on co-recursive definitions in order to ensure this: each
+    recursive call in the definition must be protected by at least one constructor,
+    and only by constructors.
+
+    "One cannot chain coinductive lemmas in proofs.
+    Everything must be done in one go."
+ --> Illustration?
 
 *** paco
 
@@ -63,3 +91,8 @@
 *** Coinductive (Adam)
     http://adam.chlipala.net/cpdt/html/Coinductive.html#approx 
 
+*** Relevant git issues
+
+    https://github.com/coq/coq/issues/6768
+    https://github.com/coq/coq/pull/10764
+    https://github.com/coq/coq/pull/7536
