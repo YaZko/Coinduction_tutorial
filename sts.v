@@ -39,6 +39,7 @@ CoInductive inf : Node -> Prop :=
 Section SubjectReduction.
   CoInductive I := C : I -> I.
   CoFixpoint infty := C infty.
+  (* The problem is dependent pattern matching on coinductives. *)
   Definition unfold : infty = C infty :=
     match infty as x return match x with C n => x = C n end with
     | C n => eq_refl (C n)
@@ -79,6 +80,13 @@ Hint Unfold inf''.
 (* We can now prove that a is the source of an infinite path.
    The normal way:
  *)
+Lemma b_inf: inf b.
+Proof.
+  cofix CIH.
+  apply step with d; auto.
+  apply step with b; auto.
+Qed.
+
 Lemma a_inf: inf a.
 Proof.
   apply step with b; auto.
