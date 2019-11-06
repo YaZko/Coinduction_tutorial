@@ -156,6 +156,7 @@ Module trees.
   Qed.
 
   (* We can try splitting out the common parts of the two above proofs *)
+
   Lemma twos_ones : eq_tree twos twos' -> eq_tree ones ones'.
   Proof.
     intros. cofix CIH.
@@ -167,12 +168,56 @@ Module trees.
     constructor. cbn. constructor; auto.
   Defined.
 
+  (* Note that we cannot use this lemma in the proof below, since the
+     _proof_ does not guard the CIH in ones_ones''. *)
+  Lemma twos_ones_different_proof : eq_tree twos twos' -> eq_tree ones ones'.
+  Proof.
+    intros.
+    inversion H. cbn in *. inversion _observe'0. auto.
+  Defined.
+
   (* However to use these lemmas, they need to be made transparent
   (using Defined) so syntactic guardedness checking succeeds. *)
   Lemma ones_ones'' : eq_tree ones ones.
   Proof.
     cofix CIH.
     apply twos_ones. apply ones_twos. apply CIH.
+  Qed.
+
+  Definition eq_tree_ A eq_tree : tree A -> tree A -> Prop :=
+    fun t t' => eq_treeF eq_tree (_observe t) (_observe t').
+  Definition eq_tree' {A} : tree A -> tree A -> Prop := paco2 (@eq_tree_ A) bot2.
+
+  (* Lemma eq_treeF_mono A : monotone2 (eq_treeF A). *)
+  Lemma eq_tree__mon A : monotone2 (@eq_tree_ A).
+  Proof.
+    repeat intro. unfold eq_tree_ in *. destruct (_observe x0), (_observe x1).
+    inversion IN; subst. constructor; auto.
+  Qed.
+  Hint Resolve eq_tree__mon : paco.
+  Hint Unfold eq_tree_.
+
+  Lemma ones_ones''' : eq_tree' ones ones.
+  Proof.
+    pcofix CIH.
+    pstep. red. cbn. constructor.
+    - right. auto.
+    - left. pcofix CIH'. pstep. red. cbn. constructor; right; auto.
+  Qed.
+
+  Lemma twos_ones' : forall r, (r twos twos' : Prop) -> paco2 (@eq_tree_ nat) r ones ones'.
+  Proof.
+    intros. pcofix CIH. pstep. red. cbn. constructor; right; auto.
+  Qed.
+  Lemma ones_twos' : forall r, (r ones ones' : Prop) -> paco2 (@eq_tree_ nat) r twos twos'.
+  Proof.
+    intros. pcofix CIH. pstep. red. cbn. constructor; right; auto.
+  Qed.
+
+  Lemma ones_ones'''' : eq_tree' ones ones.
+  Proof.
+    pcofix CIH.
+    pmult. apply twos_ones'. apply ones_twos'. auto.
   Qed.
 
 End trees.
