@@ -3,11 +3,42 @@
 ** Theoretical side
 
 *** Notion of greatest fixed point
+    Least fixed points are inductive definitions: the smallest set preserved
+    ("forwards") under its defining rules. This means that it is the set such that
+    applying the premises of each rule to something already in the set gives you back
+    something (via the conclusion of the rule) still in the set.
+
+    Dually, greatest fixed points are coinductive definitions: the biggest set
+    preserved ("backwards") under its rules. It is the set such that if the
+    conclusion is satisfied for something in the set, then the premises are also in
+    the set.
+
+    Conceptually, inductive types are things that have justification to be true, and
+    coinductive types are things that don't have justification to be false.
 
 *** Coinductive reasoning principle: based on Tarski's principle
-    TODO : double check if that's the same thing as "Park's principle" or if there's a difference
+    One theoretical basis for coinduction is based on lattice theory.
+
+    The Knaster-Tarski theorem states that the greatest fixed point of F is the join
+    of all X such that X <= F(X), and that the least fixed point of F is the meet of
+    all X such that F(X) <= X. Intuitively this corresponds to the "preserved
+    forwards" and "preserved backwards" ideas above.
+
+    A simple corollary gives us that if F(X) <= X, then \mu. F <= X. This is
+    induction, and the standard induction principle on natural numbers can be derived
+    from it. The coinduction principle is that if X <= F(X), then X <= \nu. F. Then
+    to show that some object is in a coinductive set or property, it suffices to show
+    that it is in some X such that X <= F(X).
+
+    X can be thought of as the "coinductive hypothesis". After applying F to X, X is
+    available for use to show F(X). Often one starts off with X equal to what one
+    wants to prove, but then must "strengthen" the coinductive hypothesis by making
+    it bigger. Using this approach in a proof assistant means restarting the proof
+    each time X is strengthened.
 
 *** Reasoning up-to
+    Only for bisimulations? Introduce bisimulation first?
+
     Definition, sound closure, respectful class, yadi yada
 
 *** Parameterized coinduction
@@ -47,8 +78,9 @@
     destructors, however both are defined using constructors when using positive
     coinductive types. This allows for dependent pattern matching on coinductive
     types, the cause of the issue above. Instead, if we only allow for negative
-    coinductive types using records and primitive projections (which disallow pattern
-    matching), we retain subject reduction.
+    coinductive types using records and primitive projections (which make record
+    projection first-class terms, and disallow pattern matching on records), we
+    retain subject reduction.
 
 *** Guardedness
 
