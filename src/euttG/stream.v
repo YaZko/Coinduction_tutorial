@@ -106,6 +106,12 @@ Notation concat c k := (concat' k c).
 Notation "s1 ;; s2" := (concat s1 s2)
                          (at level 100, right associativity) : stream_scope.
 
+Fail Definition forever (s : stream) : stream :=
+  cofix forever_t := concat s (forever_t).
+
+Definition forever (s : stream) : stream :=
+  cofix forever_t := concat s (Tau (forever_t)).
+
 (************************** Shallow equivalence *****************************)
 
 (** ** [observing]: Lift relations through [observe]. *)
