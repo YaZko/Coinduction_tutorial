@@ -1,3 +1,57 @@
+CoInductive stream {A} : Type :=
+| Cons (a : A) (s : stream) : stream
+.
+
+CoFixpoint ones := Cons 1 ones.
+CoFixpoint twos := Cons 2 twos.
+
+(* Not guarded *)
+Fail CoFixpoint loop : stream nat := loop.
+
+Fixpoint approx {A} n (s : stream) : list A :=
+  match n with
+  | O => nil
+  | S n => match s with
+          | Cons a s' => cons a (approx n s')
+          end
+  end.
+
+Compute approx 10 ones.
+
+CoFixpoint map {A B} (f : A -> B) (s : stream) : stream :=
+  match s with
+  | Cons a s' => Cons (f a) (map f s')
+  end.
+
+Compute approx 10 (map (fun x => x + 1) ones).
+
+(* Not guarded (since this function may never finish) *)
+Fail CoFixpoint filter {A} (p : A -> bool) (s : stream) : stream :=
+  match s with
+  | Cons a s' => if p a then Cons a (filter p s') else filter p s'
+  end.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Require Import Paco.paco.
 

@@ -6,7 +6,6 @@ Set Implicit Arguments.
 Set Primitive Projections.
 
 Module streams.
-
   Variant streamF {A} (stream : Type) : Type :=
   | ConsF (a : A) (s : stream) : streamF stream
   .
@@ -43,6 +42,7 @@ Module streams.
 
   Compute approx 10 ones.
 
+  (* Used for an alternative definition of twos *)
   CoFixpoint map {A B} (f : A -> B) (s : stream A) : stream B :=
     match (_observe s) with
     | ConsF a s => Cons (f a) (map f s)
@@ -63,30 +63,6 @@ Module streams.
   Proof.
     cofix CIH.
     constructor. cbn. constructor. apply CIH.
-  Qed.
-
-  (* maybe delete these instances, I don't think I'll use them *)
-  Instance Reflexive_eq_stream A : Reflexive (@eq_stream A).
-  Proof.
-    red. cofix CIH. constructor. destruct (_observe x).
-    constructor. apply CIH.
-  Qed.
-
-  Instance Symmetric_eq_stream A : Symmetric (@eq_stream A).
-  Proof.
-    red. cofix CIH.
-    constructor. destruct H.
-    destruct (_observe x), (_observe y). inversion _observe'0; subst.
-    constructor. apply CIH. auto.
-  Qed.
-
-  Instance Transitive_eq_stream A : Transitive (@eq_stream A).
-  Proof.
-    red. cofix CIH. repeat intro.
-    constructor. destruct H. destruct H0.
-    destruct (_observe x), (_observe y), (_observe z).
-    inversion _observe'0; subst. inversion _observe'1; subst.
-    constructor. eapply CIH; eauto.
   Qed.
 
   Lemma trans_eq_stream A : forall (s1 s2 s3 : stream A),
@@ -111,6 +87,36 @@ Module streams.
     inversion _observe'1; subst. rewrite <- H2 in H0. inversion H0; subst.
     destruct (_observe s1), (_observe s2), (_observe s3).
     constructor. eapply CIH; eauto.
+  Qed.
+
+  Definition eq_stream_ A eq_stream : stream A -> stream A -> Prop :=
+    fun s s' => eq_streamF eq_stream (_observe s) (_observe s').
+  Definition eq_stream' {A} : stream A -> stream A -> Prop := paco2 (@eq_stream_ A) bot2.
+  (* Lemma eq_treeF_mono A : monotone2 (eq_treeF A). *)
+  Lemma eq_stream__mon A : monotone2 (@eq_stream_ A).
+  Proof.
+    repeat intro. unfold eq_stream_ in *. destruct (_observe x0), (_observe x1).
+    inversion IN; subst. constructor; auto.
+  Qed.
+  Hint Resolve eq_stream__mon : paco.
+  Hint Unfold eq_stream_.
+
+  Lemma twos_twos'' : eq_stream' twos twos'.
+  Proof.
+    pcofix CIH. pfold. red. cbn.
+    constructor. right. auto.
+  Qed.
+
+  Lemma trans_eq_stream' A : forall (s1 s2 s3 : stream A),
+      eq_stream' s1 s2 ->
+      eq_stream' s2 s3 ->
+      eq_stream' s1 s3.
+  Proof.
+    pcofix CIH. repeat intro.
+    pfold. punfold H0. punfold H1. red in H0, H1 |- *.
+    destruct (_observe s1), (_observe s2), (_observe s3).
+    inversion H0; subst. inversion H1; subst. pclearbot.
+    constructor. right. eapply CIH; eauto.
   Qed.
 End streams.
 

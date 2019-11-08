@@ -101,6 +101,24 @@
     transparent (Defined instead of Qed).
 
 *** paco
+    Paco provides a semantic notion of guardedness, which allows for compositional
+    reasoning. It also supports incremental reasoning, which practically allows for
+    effective use of automation in coinductive proofs.
+
+    paco F r = \nu. fun x -> F(r \/ x)
+
+    r is the currenty accmulated knowledge in the proof so far. At the beginning of
+    the proof, we have no knowledge so far.
+
+    paco F \bot = \nu F
+
+    We can unfold the paco definition:
+
+    paco F r = F (r \/ paco F r)
+
+    And most importantly, we can accumulate information during the proof:
+
+    x \in paco F r <=> x \in paco F (r \/ x)
 
 *** gpaco
 
@@ -151,7 +169,7 @@
 
 *** Greatest fixed points, coinduction
 
-*** Coinduction in Coq, cofix, guardedness, productivity.
+*** Coinduction in Coq, cofix, guardedness.
 
 *** Subject reduction, negative/positive coinductive types
 
@@ -169,6 +187,7 @@
     egs.
 
 *** eutt
+    Need for tau
 
 *** Available information
 
