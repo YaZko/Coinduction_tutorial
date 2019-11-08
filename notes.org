@@ -144,3 +144,34 @@
     https://github.com/coq/coq/issues/6768
     https://github.com/coq/coq/pull/10764
     https://github.com/coq/coq/pull/7536
+
+** Presentation
+
+*** Intro about bisimulation, infinite behaviours
+
+*** Greatest fixed points, coinduction
+
+*** Coinduction in Coq, cofix, guardedness, productivity.
+
+*** Subject reduction, negative/positive coinductive types
+
+*** Coinductive predicates, bisimulation vs eq, proofs
+    State machine eg.
+    Guarded command
+
+*** Issues with compositionality, automation
+    paco also introduces incrementality (but more in the theoretical setting, not Coq
+    cofix)
+
+*** paco
+    Defns
+    Rules
+    egs.
+
+*** eutt
+
+*** Available information
+
+*** Up-to reasoning
+
+*** gpaco

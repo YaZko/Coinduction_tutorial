@@ -1,3 +1,4 @@
+
 Require Import Paco.paco.
 
 (** Example from "The Power of Parameterization in Coinductive Proof"
@@ -37,15 +38,20 @@ CoInductive inf : Node -> Prop :=
 | step: forall x y, inf y -> edge x y -> inf x.
 
 Section SubjectReduction.
-  CoInductive I := C : I -> I.
-  CoFixpoint infty := C infty.
-  (* The problem is dependent pattern matching on coinductives. *)
-  Definition unfold : infty = C infty :=
-    match infty as x return match x with C n => x = C n end with
-    | C n => eq_refl (C n)
+  CoInductive tick := Tick : tick -> tick.
+  CoFixpoint loop := Tick loop.
+
+  (* simply eq_refl is also a valid proof *)
+  Definition etaeq : loop = loop :=
+    match loop with
+    | Tick t => eq_refl (Tick t)
     end.
-  Eval lazy in unfold.
-  Fail Definition nf_unfold : infty = C infty := Eval lazy in unfold.
+
+  (* The dependent pattern match gives us some information (the
+     definition of loop) about the structure of loop, and reducing the
+     match loses this information, resulting in a different type *)
+  Eval compute in etaeq.
+  Fail Definition BOOM : loop = loop := Eval compute in etaeq.
 End SubjectReduction.
 
 (* The negative coinductive style.

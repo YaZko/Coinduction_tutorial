@@ -1,0 +1,13 @@
+Makefile.coq
+Makefile.coq.conf
+_CoqProject
+.coqdeps.d
+
+*.aux
+*.vo
+*.vio
+*.v.d
+*.glob
+*.pyc
+\#*\#
+*~

@@ -197,21 +197,21 @@ Module trees.
   Hint Resolve eq_tree__mon : paco.
   Hint Unfold eq_tree_.
 
-  Lemma ones_ones''' : eq_tree' ones ones.
+  Lemma ones_ones''' : eq_tree' ones ones'.
   Proof.
     pcofix CIH.
-    pstep. red. cbn. constructor.
+    pfold. red. cbn. constructor.
     - right. auto.
-    - left. pcofix CIH'. pstep. red. cbn. constructor; right; auto.
+    - left. pcofix CIH'. pfold. red. cbn. constructor; right; auto.
   Qed.
 
   Lemma twos_ones' : forall r, (r twos twos' : Prop) -> paco2 (@eq_tree_ nat) r ones ones'.
   Proof.
-    intros. pcofix CIH. pstep. red. cbn. constructor; right; auto.
+    intros. pcofix CIH. pfold. red. cbn. constructor; right; auto.
   Qed.
   Lemma ones_twos' : forall r, (r ones ones' : Prop) -> paco2 (@eq_tree_ nat) r twos twos'.
   Proof.
-    intros. pcofix CIH. pstep. red. cbn. constructor; right; auto.
+    intros. pcofix CIH. pfold. red. cbn. constructor; right; auto.
   Qed.
 
   Lemma ones_ones'''' : eq_tree' ones ones.

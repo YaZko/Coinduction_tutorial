@@ -1,0 +1,88 @@
+changes from v3.0.0 to v4.0.0
+=========================
+- Support "paco" and "gpaco", and remove "gcpn".
+- Support the following tactics for "gpaco". 
+  ginit, gfinal, gunfold, gunfoldbot, gbase, gstep, gupaco, gclo, grclo, guclo, glecpn, gcofix
+
+changes from v2.1.0 to v3.0.0
+=========================
+- Support "gcpn", which supports more general incremental principles.
+- Add the following tactics:
+  gbase, gstep, gclo, gcpn, gcofix, gunfold, ginit, gfinal.
+
+changes from v2.0.3 to v2.1.0
+=========================
+- Simplify the upto technique using "companion" following the following paper:
+  * Damien Pous, Coinduction All the Way Up, LICS 2016.
+- Add tactics for upto reasoning:
+  ucompat, ubase, ustep, uclo, ucpn, ucofix, uunfold, uinit, ufinal, gcpn_fold. 
+
+changes from v2.0.2 to v2.0.3
+=========================
+- Add the lemmas "[u]paco{n}_mon_bot".
+- Add the lemmas "rclo{n}_mon_gen".
+- Add the tactic "p[un]fold{n}_reverse".
+
+changes from v2.0.1 to v2.0.2
+=========================
+- Improve "pclearbot" to work under binders.
+- Export Program.Basics to support the notation for "compose".
+
+changes from v2.0.0 to v2.0.1
+=========================
+- Improve the "pupto" tactic to just take the lemma name without arguments to the lemma.
+- Add the lemmas "[u]paco{n}_mon_gen".
+
+changes from v1.2.9 to v2.0.0
+=========================
+- Add the upto library.
+
+changes from v1.2.8 to v1.2.9
+=========================
+- Speed up the compliation time by internally defining n-ary pacos using the unary paco.
+
+changes from v1.2.7 to v1.2.8
+=========================
+- Add the definition "upaco".
+
+changes from v1.2.6 to v1.2.7
+=========================
+- Remove "repeat red" from the tactics "punfold", "pfold" and "pmult".
+
+changes from v1.2.5 to v1.2.6
+=========================
+- Change the name of the tactic "clearbot" to "pclearbot"
+- Add new tactics: "pdestruct" and "pinversion"
+
+changes from v1.2.4 to v1.2.5
+=========================
+- Support up to arity 15.
+
+changes from v1.2.3 to v1.2.4
+=========================
+- Define the predicates bot{n} using "pacoid".
+
+changes from v1.2.2 to v1.2.3
+=========================
+- Define the predicates bot{n} using Notation for performance gains
+
+changes from v1.2.1 to v1.2.2
+=========================
+- Support relations of arity up to 14
+- Add a new tactic: pmult
+
+changes from v1.2 to v1.2.1
+=========================
+- Bug fixes
+
+changes from v1.1 to v1.2
+=========================
+- Add new tactics: pfold, punfold, pmonauto
+- Update the tutorial accordingly
+
+changes from v1.0 to v1.1
+=========================
+- Bug fixes
+- Add a new tactic: clearbot
+- "pcofix" does not change the order of hypotheses
+
