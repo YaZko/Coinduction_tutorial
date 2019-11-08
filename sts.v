@@ -5,6 +5,18 @@ CoInductive stream {A} : Type :=
 CoFixpoint ones := Cons 1 ones.
 CoFixpoint twos := Cons 2 twos.
 
+(* cofixes only reduce when they are the target of a match *)
+Goal ones = ones.
+  cbv.
+  reflexivity.
+Qed.
+Goal match ones with
+     | Cons a s => s
+     end = ones.
+  simpl.
+  reflexivity.
+Qed.
+
 (* Not guarded *)
 Fail CoFixpoint loop : stream nat := loop.
 
@@ -30,6 +42,39 @@ Fail CoFixpoint filter {A} (p : A -> bool) (s : stream) : stream :=
   match s with
   | Cons a s' => if p a then Cons a (filter p s') else filter p s'
   end.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Section SubjectReduction.
+  CoInductive tick := Tick : tick -> tick.
+  CoFixpoint loop := Tick loop.
+
+  (* simply eq_refl is also a valid proof *)
+  Definition etaeq : loop = loop :=
+    match loop with
+    | Tick t => eq_refl (Tick t)
+    end.
+
+  (* The dependent pattern match gives us some information (the
+     definition of loop) about the structure of loop, and reducing the
+     match loses this information, resulting in a different type *)
+  Eval compute in etaeq.
+  Fail Definition BOOM : loop = loop := Eval compute in etaeq.
+End SubjectReduction.
+
 
 
 
@@ -90,23 +135,6 @@ Hint Constructors edge.
  *)
 CoInductive inf : Node -> Prop :=
 | step: forall x y, inf y -> edge x y -> inf x.
-
-Section SubjectReduction.
-  CoInductive tick := Tick : tick -> tick.
-  CoFixpoint loop := Tick loop.
-
-  (* simply eq_refl is also a valid proof *)
-  Definition etaeq : loop = loop :=
-    match loop with
-    | Tick t => eq_refl (Tick t)
-    end.
-
-  (* The dependent pattern match gives us some information (the
-     definition of loop) about the structure of loop, and reducing the
-     match loses this information, resulting in a different type *)
-  Eval compute in etaeq.
-  Fail Definition BOOM : loop = loop := Eval compute in etaeq.
-End SubjectReduction.
 
 (* The negative coinductive style.
    Define first the functor, then define the coinductive
